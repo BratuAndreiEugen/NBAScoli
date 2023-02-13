@@ -1,0 +1,28 @@
+insert into scoli(nume) values ('CNCI'), ('CNFB')
+select * from scoli
+insert into echipe(nume, scoalaid) values ('Carol', 1), ('Buzesti', 2)
+select * from echipe
+insert into meciuri(echipa1, echipa2, data) values (1, 2, '2020-09-03')
+select * from meciuri
+insert into elevi(scoalaid, nume) values (1, 'andrei'), (1, 'george'), (2, 'radu')
+select * from elevi
+insert into jucatori(elevid, echipaid) values (1, 1), (2, 1), (3, 2)
+select * from jucatori
+insert into jucatoriactivi(jucatorid, meciid, tip, puncte) values (1, 1, 'Participant', 20), (2, 1, 'Banca', 0), (3, 1, 'Participant', 12)
+select * from jucatoriactivi
+
+update jucatoriactivi set puncte = 5 where jucatorid = 2
+
+
+
+-- query pt. prima cerinta functionala
+select e.id, e.nume, s.nume from elevi e inner join jucatori j on e.id = j.elevid inner join scoli s on s.id = e.scoalaid where j.echipaid = 1
+-- pt 2
+select e.id, ja.puncte, ja.tip, e.nume, e.scoalaid from elevi e inner join jucatoriactivi ja on e.id = ja.jucatorid inner join jucatori j on e.id = j.elevid where ja.meciid = 1 and j.echipaid = 1
+-- pt 3
+select echipa1, echipa2, data, id from meciuri where data > '2019-03-04' and data < '2023-11-3'
+select id, nume from echipe where id = echipa1
+select id, nume from echipe where id = echipa2
+-- pt 4 Sa se determine si sa se afiseze scorul de la un anumit meci 
+select e.nume, SUM(ja.puncte) from meciuri m inner join echipe e on m.echipa2 = e.id inner join jucatori j on e.id = j.echipaid inner join elevi el on el.id = j.elevid inner join jucatoriactivi ja
+on ja.jucatorid = el.id where m.id = 1 group by e.nume
